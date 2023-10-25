@@ -81,12 +81,30 @@
             <form>
                 <fieldset>
                     <legend>Contact info</legend>
-                    <label for="Name">Name</label>
+                    <label for="namelabel">Name</label>
                     <input type="text" name="name" id="name">
+                    <label for="typelabel">Contact method</label>
+                    <select name="contacttype" id="contacttype">
+                        <optgroup label="Preferred contact method">
+                            <option value="email">Email</option>
+                            <option value="call">Call</option>
+                        </optgroup>
+                    </select>
+                    <label for="contacttime">Best time to contact</label>
+                    <input list="contacttime" id="timeinfo" name="timeinfo" />
+                    <datalist id="contacttime">
+                        <option value="morning"></option>
+                        <option value="afternoon"></option>
+                        <option value="evening"></option>
+                        <option value="anytime"></option>
+                    </datalist>
+                    <label for="infolabel">Contact info</label>
+                    <input type="text" name="contactinfo" id="contactinfo">
                 </fieldset>
                 <fieldset>
                     <legend>Message</legend>
                     <textarea id="message" name="message"></textarea>
+                    <
                 </fieldset>
                 <input type="submit" value="Send">
             </form>
