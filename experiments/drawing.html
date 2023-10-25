@@ -12,11 +12,20 @@
         <p>And Here I attempt an inline SVG circle: <svg viewBox="0 0 10 10" x="100" width="20" xmlns="http://www.w3.org/2000/svg" fill="red"><circle cx="5" cy="5" r="2" /></svg></p>
         <details>
             <summary>Code</summary>
-            <pre><code>
-                Example code
+            <pre>
+                Example code for canvas
                 Javascript:
+                <code>const canvas = document.getElementById("canvas");
+                const ctx = canvas.getContext("2d");
 
-                &lt;&gt;
+                ctx.fillStyle = "red";
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(50, 0);
+                ctx.lineTo(50, 50);
+                ctx.lineTo(0, 50);
+                ctx.lineTo(0, 0);
+                ctx.stroke();
             </code></pre>
         </details>
     </body>
