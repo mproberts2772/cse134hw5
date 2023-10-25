@@ -16,7 +16,6 @@
             <h2>Bio</h2>
             <h3>General information</h3>
             <p>Here is some general information on me! I am undergrad in comp sci, etc!</p>
-            <br>
             <p>Separate paragraph! Maybe this time with some <em>emphasis!</em></p>
             <h3>Projects</h3>
             <ol>
@@ -74,13 +73,29 @@
     </aside>
     <hr>
     <footer>
-        <h2>Contact me!</h2>
+        <button onclick="showContact()">Contact me!</button>
         <section>
             <template>
-                <p>This is where the form goes</p>
+                <p>This is where the form will go, for now placed outside for visibility</p>
             </template>
+            <form>
+                <fieldset>
+                    <legend>Contact info</legend>
+                    <label for="Name">Name</label>
+                    <input type="text" name="name" id="name">
+                </fieldset>
+                <fieldset>
+                    <legend>Message</legend>
+                    <textarea id="message" name="message"></textarea>
+                </fieldset>
+                <input type="submit" value="Send">
+            </form>
         </section>
     </footer>
 </body>
+
+<script>
+    //placeholder for showContact() function to expand contact info
+</script>
 
 </html>
