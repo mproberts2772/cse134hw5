@@ -13,6 +13,8 @@
             <summary>Code</summary>
             <pre><code>
                 Example code
+                Javascript:
+
                 &lt;&gt;
             </code></pre>
         </details>
@@ -22,7 +24,11 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        ctx.fillStyle = "green";
-        ctx.fillRect(10, 10, 150, 100);
+        ctx.fillStyle = "red";
+        ctx.fillCirc(10, 10, 150, 100);
+        ctx.beginPath();
+        ctx.moveTo(50, 50);
+        ctx.lineTo(50, 10);
+        ctx.stroke();
     </script>
 </html>
