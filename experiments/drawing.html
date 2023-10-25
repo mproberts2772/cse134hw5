@@ -8,6 +8,7 @@
     </head>
 
     <body>
+        <canvas id="canvas"></canvas>
         <details>
             <summary>Code</summary>
             <pre><code>
@@ -17,4 +18,11 @@
         </details>
     </body>
 
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "green";
+        ctx.fillRect(10, 10, 150, 100);
+    </script>
 </html>
