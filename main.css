@@ -1,5 +1,53 @@
+:root {
+    --nav-color: color(display-p3 0.6 0.8 1.0 / 0.7);
+    --text-color: lightgray;
+    --background-color: rgb(37, 37, 37);
+    --link-color: rgb(59, 130, 224);
+}
+
 body {
-    background-color:rgb(37, 37, 37);
-    color:lightgray;
-    display: flex;
+    background-color: var(--background-color, white);
+    color: var(--text-color, black);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 3vw;
+}
+
+main {
+    animation: 3s 1 alternate fadein;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+h2:has(+ ol a) {
+    color: var(--nav-color, blue);
+}
+
+main section {
+    margin: 1rem;
+    transition: transform 0.5s;
+}
+
+main section:hover {
+    transform: scale(1.05);
+}
+
+td {
+    padding: 1em;
+}
+
+a {
+    color:var(--link-color, blue);
+}
+
+nav {
+    padding-inline: 1em;
+    border: 1px solid var(--nav-color, blue);
 }

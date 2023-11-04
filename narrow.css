@@ -1,0 +1,37 @@
+main {
+    display: grid;
+}
+
+#portrait picture * {
+    width: 10rem;
+    object-fit: contain;
+    object-position: right;
+}
+
+#bio {
+    grid-row: 1;
+}
+
+#projects {
+    grid-row: 2;
+}
+
+#portrait {
+    grid-row: 6;
+}
+
+#skills {
+    grid-row: 3;
+}
+
+#education {
+    grid-row: 4;
+}
+
+#experience {
+    grid-row: 5;
+}
+
+nav {
+    grid-row: 7;
+}
