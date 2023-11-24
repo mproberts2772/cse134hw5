@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" >
+        <meta name="keywords" content="HTML, resume" >
+        <meta name="author" content="Michael Roberts" >
+        <title>Michael Roberts's Portfolio</title>
+        <link href="images/favicon.ico" rel="icon" >
+        <link href="no-js.css" rel="stylesheet" media="screen" type="text/css" >
+        <link href="wide.css" rel="stylesheet" media="screen and (min-width:1024px)" type="text/css" >
+        <link href="medium.css" rel="stylesheet" media="screen and (min-width:751px) and (max-width:1023px)" type="text/css" >
+        <link href="narrow.css" rel="stylesheet" media="screen and (max-width:750px)" type="text/css" >
+    </head>
+
+    <body>
+        <header>
+            <h1>Michael Roberts's Portfolio</h1>
+        </header>
+        <main>
+            <section id="bio">
+                <h2 class="one">Bio</h2>
+                <h3 class="one">General information</h3>
+                <p class="one">Here is some general information on me! I am undergrad in comp sci, etc!</p>
+            </section>
+            <section id="projects">
+                <h3>Projects</h3>
+                <ol>
+                    <li>Project: description</li>
+                    <li>Project: description</li>
+                    <li>Project: description</li>
+                </ol>
+            </section>
+            <section id="portrait">
+                <picture>
+                    <source media="(min-width:1024px)" srcset="/images/portraitwide.jpg">
+                    <source media="(min-width:751px) and (max-width:1023px)" srcset="/images/portraitmedium.jpg">
+                    <source media="(max-width:750px)" srcset="/images/portraitsmall.jpg">
+                    <img src="/images/portraitmedium.jpg" alt="Self Portrait">
+                </picture>
+            </section>
+            <section id="skills">
+                <h3>Skills</h3>
+                <ul>
+                    <li>Skill 1</li>
+                    <li>Skill 2</li>
+                    <li>Skill 3</li>
+                </ul>
+            </section>
+            <section id="Education">
+                <h2>Education</h2>
+                <table>
+                    <colgroup>
+                        <col class="Degree">
+                        <col class="School">
+                        <col class="Date">
+                    </colgroup>
+                    <tr>
+                        <th>Degree</th>
+                        <th>School</th>
+                        <th>Date or Expected Date</th>
+                    </tr>
+                    <tr>
+                        <td><i>BS in Computer Science</i></td>
+                        <td>University of California: San Diego</td>
+                        <td>12/2023</td>
+                    </tr>
+                </table>
+            </section>
+            <section id="experience">
+                <h2>Work Experience</h2>
+                <p>Description.. perhaps</p>
+            </section>
+            <aside>
+                <nav>
+                    <h2>Experiments</h2>
+                    <ol>
+                        <li><a href="./experiments/iframe.html">Iframe</a></li>
+                        <li><a href="./experiments/drawing.html">Drawing</a></li>
+                        <li><a href="./experiments/mathml.html">MathML</a></li>
+                    </ol>
+                </nav>
+            </aside>
+        </main>
+        <footer>
+            <button onclick="showContact()">Contact me!</button>
+            <section>
+                <template>
+                    <p>This is where the form will go, for now placed outside for visibility</p>
+                </template>
+                <form action="https://httpbin.org/get" method="get">
+                    <fieldset>
+                        <legend>Contact info</legend>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" required="true">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" required="true">
+                        <label for="comments">Comments</label>
+                        <input type="text" name="comments" id="comments" required="true" minlength="50" maxlength="200" pattern="[a-z0-9,.?!]*">
+                        <input type="text" name="possible_bot" hidden="true" value="true">
+                        <output id="error"></output>
+                        <output id="info"></output>
+                    </fieldset>
+                    <input type="submit" value="Send">
+                </form>
+            </section>
+        </footer>
+    </body>
+
+    <!-- <script>
+        //placeholder for showContact() function to expand contact info
+    </script> -->
+
+</html>

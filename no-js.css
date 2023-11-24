@@ -1,4 +1,9 @@
-
+:root {
+    --nav-color: color(display-p3 0.6 0.8 1.0 / 0.7);
+    --text-color: lightgray;
+    --background-color: rgb(37, 37, 37);
+    --link-color: rgb(59, 130, 224);
+}
 
 body {
     background-color: var(--background-color, white);
@@ -11,10 +16,6 @@ main {
     animation: 3s 1 alternate fadein;
 }
 
-#themeToggle {
-    float: inline-end;
-}
-
 @keyframes fadein {
     from {
         opacity: 0;
@@ -22,18 +23,6 @@ main {
 
     to {
         opacity: 1;
-    }
-}
-
-@keyframes fadeout {
-    from {
-        visibility: visible;
-        opacity: 1;
-    }
-
-    to {
-        visibility: hidden;
-        opacity: 0;
     }
 }
 
@@ -73,7 +62,6 @@ label {
 
 input {
     grid-row: 2;
-    outline: none;
 }
 
 output {
@@ -83,7 +71,18 @@ output {
 #error {
     grid-column: 1/3;
 }
-
 #info {
     grid-column: 3;
+}
+
+#comments:invalid ~ #error:after {
+    content: "Comments must be 50-200 alphanumeric characters"
+}
+
+#email:invalid ~ #error:after {
+    content: "*Email is invalid";
+}
+
+#name:invalid ~ #error:after  {
+    content: "*Name is required";
 }

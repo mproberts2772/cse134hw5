@@ -8,13 +8,18 @@
         <title>Michael Roberts's Portfolio</title>
         <link href="images/favicon.ico" rel="icon" >
         <link href="main.css" rel="stylesheet" media="screen" type="text/css" >
+
         <link href="wide.css" rel="stylesheet" media="screen and (min-width:1024px)" type="text/css" >
         <link href="medium.css" rel="stylesheet" media="screen and (min-width:751px) and (max-width:1023px)" type="text/css" >
         <link href="narrow.css" rel="stylesheet" media="screen and (max-width:750px)" type="text/css" >
+
+        <link href="dark.css" rel="stylesheet" media="screen" id="darkmode" type="text/css" >
+        <link href="light.css" rel="stylesheet" media="screen" id="lightmode" type="text/css" >
     </head>
 
     <body>
         <header>
+            <img id="themeToggle" width="50rem" hidden="true"></button>
             <h1>Michael Roberts's Portfolio</h1>
         </header>
         <main>
@@ -88,32 +93,19 @@
                 <template>
                     <p>This is where the form will go, for now placed outside for visibility</p>
                 </template>
-                <form>
+                <form action="https://httpbin.org/get" method="get">
                     <fieldset>
                         <legend>Contact info</legend>
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name">
-                        <label for="contacttype">Contact method</label>
-                        <select name="contacttype" id="contacttype">
-                            <optgroup label="Preferred contact method">
-                                <option value="email">Email</option>
-                                <option value="call">Call</option>
-                            </optgroup>
-                        </select>
-                        <label for="timeinfo">Best time to contact</label>
-                        <input list="contacttime" id="timeinfo" name="timeinfo">
-                        <datalist id="contacttime">
-                            <option value="morning"></option>
-                            <option value="afternoon"></option>
-                            <option value="evening"></option>
-                            <option value="anytime"></option>
-                        </datalist>
-                        <label for="contactinfo">Contact info</label>
-                        <input type="text" name="contactinfo" id="contactinfo">
-                    </fieldset>
-                    <fieldset>
-                        <legend>Message</legend>
-                        <textarea id="message" name="message"></textarea>
+                        <input type="text" name="name" id="name" required="true">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" required="true">
+                        <label for="comments">Comments</label>
+                        <input type="text" name="comments" id="comments" required="true" maxlength="200" pattern="[a-z0-9,.?!]*">
+                        <input type="text" name="possible_bot" hidden="true" value="true">
+                        <input type="text" name="form_errors" hidden="true">
+                        <output id="error"></output>
+                        <output id="info"></output>
                     </fieldset>
                     <input type="submit" value="Send">
                 </form>
@@ -121,8 +113,124 @@
         </footer>
     </body>
 
-    <!-- <script>
-        //placeholder for showContact() function to expand contact info
-    </script> -->
+    <script type="module">
+        let formInputs = document.querySelectorAll('input');
+        let errorMessage = document.querySelectorAll('output')[0];
+        let infoMessage = document.querySelectorAll('output')[1];
+        let form_errors = [];
+        let themeToggle = document.getElementById('themeToggle');
+        let error_send = formInputs[4];
+
+        themeToggle.hidden = false;
+        if (localStorage.getItem("theme") !== "dark") {
+            document.getElementById('darkmode').disabled = true;
+            document.getElementById('lightmode').disabled = false;
+            localStorage.setItem("theme", "light");
+            themeToggle.src = "images/sun.png";
+        } else {
+            document.getElementById('darkmode').disabled = false;
+            document.getElementById('lightmode').disabled = true;
+            themeToggle.src = "images/moon.png";
+        }
+
+        themeToggle.addEventListener("click", (event) =>{
+            if (localStorage.getItem("theme") === "dark") {
+                document.getElementById('darkmode').disabled = true;
+                document.getElementById('lightmode').disabled = false;
+                localStorage.setItem("theme", "light");
+                themeToggle.src = "images/sun.png";
+            } else {
+                document.getElementById('darkmode').disabled = false;
+                document.getElementById('lightmode').disabled = true;
+                localStorage.setItem("theme", "dark");
+                themeToggle.src = "images/moon.png";
+            }
+        })
+
+        infoMessage.innerHTML = `${formInputs[2].maxLength - formInputs[2].value.length} characters remaining`;
+
+        formInputs[0].setCustomValidity("Name is required!");
+        formInputs[1].setCustomValidity("Email is required!");
+        formInputs[2].setCustomValidity("Comment is required!");
+
+        formInputs[0].addEventListener("input", (event) => {
+            if (formInputs[0].validity.valueMissing) {
+                formInputs[0].setCustomValidity("Name is required!");
+            } else {
+                formInputs[0].setCustomValidity("");
+            }
+        });
+
+        formInputs[1].addEventListener("input", (event) => {
+            if (formInputs[1].validity.typeMismatch) {
+                formInputs[1].setCustomValidity("Invalid email!");
+            } else if (formInputs[1].validity.valueMissing) {
+                formInputs[1].setCustomValidity("Email is required!");
+            } else {
+                formInputs[1].setCustomValidity("");
+            }
+        });
+
+        formInputs[2].addEventListener("input", (event) => {
+            infoMessage.innerHTML = `${formInputs[2].maxLength - formInputs[2].value.length} characters remaining`;
+
+            if (formInputs[2].value.length > 200) {
+                formInputs[2].style.borderColor = 'red';
+            } else if (formInputs[2].value.length === 200) {
+                formInputs[2].style.borderColor = 'brown';
+            } else if (formInputs[2].value.length > 150) {
+                formInputs[2].style.borderColor = 'orange';
+            } else {
+                formInputs[2].style.borderColor = formInputs[1].style.borderColor;
+            }
+
+            if (formInputs[2].validity.patternMismatch) {
+                formInputs[2].setCustomValidity("Special characters are not allowed!");
+                formInputs[2].style.boxShadow = '0 0 5px 2px red';
+                errorMessage.innerHTML = 'Special characters are not allowed!';
+                errorMessage.style.visibility = 'visible';
+                errorMessage.style.animation = '4s 1 alternate fadeout';
+                errorMessage.style.visibility = 'hidden';
+            } else {
+                formInputs[2].style.boxShadow = 'none';
+                errorMessage.style.animation = 'none';
+                if (formInputs[2].validity.valueMissing) {
+                    formInputs[2].setCustomValidity("Comment is required!");
+                } else {
+                    formInputs[2].setCustomValidity("");
+                }
+            }
+        });
+
+        formInputs[0].addEventListener("invalid", (event) => {
+            let errorData = {
+                name: 'name',
+                empty: formInputs[0].validity.valueMissing
+            };
+            form_errors.push(errorData);
+            error_send.value = JSON.stringify(form_errors);
+        });
+
+        formInputs[1].addEventListener("invalid", (event) => {
+            let errorData = {
+                name: 'email',
+                empty: formInputs[1].validity.valueMissing,
+                valid: !formInputs[1].validity.typeMismatch
+            };
+            form_errors.push(errorData);
+            error_send.value = JSON.stringify(form_errors);
+        });
+
+        formInputs[2].addEventListener("invalid", (event) => {
+            let errorData = {
+                name: 'comments',
+                empty: formInputs[2].validity.valueMissing,
+                tooLong: formInputs[2].validity.tooLong,
+                specialCharactersUsed: formInputs[2].validity.patternMismatch
+            };
+            form_errors.push(errorData);
+            error_send.value = JSON.stringify(form_errors);
+        });
+    </script>
 
 </html>
