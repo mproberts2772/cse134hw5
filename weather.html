@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Weather Demo</title>
+    </head>
+    <body>
+        <weather-widget>
+            <p>Current Weather Conditions Unavailable</p>
+        </weather-widget>
+    </body>
+    
+    <script type="module">
+        class WeatherWidget extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({mode: 'open'});
+                this.shadowRoot.innerHTML = "<h3>Current Weather</h3><p>Loading weather information...</p>";
+                this.loadWeather().then((data) => {
+                    let wData = data.properties.periods[0];
+                    let icon;
+                    if (wData.shortForecast.toLowerCase().includes("fog")) {
+                        icon = '🌫';
+                    } else if (wData.shortForecast.toLowerCase().includes("cloudy")) {
+                        icon = '☁';
+                    } else if (wData.shortForecast.toLowerCase().includes("clear")) {
+                        icon = '☀';
+                    } else if (wData.shortForecast.toLowerCase().includes("sunny")) {
+                        icon = '🌣';
+                    }else if (wData.shortForecast.toLowerCase().includes("rain")) {
+                        icon = '🌧';
+                    }
+
+                    this.shadowRoot.querySelector("p").innerHTML = 
+                    `${icon} ${wData.shortForecast} ${wData.temperature}&deg;${wData.temperatureUnit}`;
+
+                });
+            }
+
+            async loadWeather() {
+                const response = await fetch("https://api.weather.gov/gridpoints/SGX/55,21/forecast");
+                return response.json();
+            }
+        }
+        customElements.define('weather-widget', WeatherWidget);
+    </script>
+</html>
+
+

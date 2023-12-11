@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Rating Demo</title>
+    </head>
+    <body>
+        <rating-widget>
+            <form action="https://httpbin.org/post" method="post">
+                <label for="rating">How satisfied are you?</label>
+                <input type="hidden" name="question" value="How satisfied are you?">
+                <input type="hidden" name="sentBy" value="HTML">
+                <input type="number" id="rating" name="rating" min="1" max="5" value="0" required>
+                <button type="submit">Submit</button>
+            </form>
+        </rating-widget>
+
+    </body>
+    
+    <script type="module">
+        // Empty: &#9734; Filled: &#9733;
+        class RatingWidget extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open'});
+
+                let numStars = this.querySelector("#rating").max;
+                this.shadowRoot.innerHTML = `<h3>Rating Widget</h3>`;
+                this.shadowRoot.querySelector(`h3`).style.fontSize = '2em';
+                let currentRating = 0;
+
+                // Initialize stars
+                for (let i = 0; i < numStars; i++) {
+                    this.shadowRoot.innerHTML += `<button id='star${i}'>&#9734</button>`
+
+                    let currentButton = this.shadowRoot.querySelector(`#star${i}`);
+                    currentButton.style.fontSize = '2em';
+                    currentButton.style.color = 'var(--unfilled-star, var(--text-color))';
+                    currentButton.style.backgroundColor = 'transparent';
+                    currentButton.style.borderColor = 'transparent';
+                }
+
+                this.shadowRoot.innerHTML += `<p id='ratingText'></p>`
+
+                for (let i = 0; i < numStars; i++) {
+                    // On hover
+                    this.shadowRoot.getElementById(`star${i}`).addEventListener('mouseover', () => {
+                        for (let j = 0; j < numStars; j++) {
+                            if (j > i) {
+                                this.shadowRoot.getElementById(`star${j}`).innerHTML = '&#9734';
+                                this.shadowRoot.getElementById(`star${j}`).style.color = 'var(--unfilled-star, var(--text-color))';
+                            } else {
+                                this.shadowRoot.getElementById(`star${j}`).innerHTML = '&#9733';
+                                this.shadowRoot.getElementById(`star${j}`).style.color = 'var(--filled-star, var(--text-color))';
+                            }
+                        }
+                    })
+                    // On click
+                    this.shadowRoot.getElementById(`star${i}`).addEventListener('click', async () => {
+                        if (i + 1 >= numStars*0.8) {
+                            this.shadowRoot.getElementById('ratingText').innerHTML = `Thank you for the ${i + 1} star rating!`;
+                        } else if (i + 1 <= numStars*0.4) {
+                            this.shadowRoot.getElementById('ratingText').innerHTML = `Thank you for your feedback of ${i + 1} stars. We will try to do better!`;
+                        } else {
+                            this.shadowRoot.getElementById('ratingText').innerHTML = ``;
+                        }
+                        for (let i = 0; i < numStars; i++) {
+                            this.shadowRoot.getElementById(`star${i}`).hidden = true;
+                        }
+                        let data = {
+                            question: this.querySelector(`input[name='question']`).value,
+                            sentBy: 'JavaScript',
+                            rating: i
+                        }
+
+                        this.querySelector(`input[name='sentBy']`).value = 'JavaScript';
+                        this.querySelector(`input[name='rating']`).value = i;
+                        const response = await fetch('https://httpbin.org/post', {
+                            method: "POST", 
+                            body:JSON.stringify(data), 
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-Sent-By": "JavaScript"
+                            }
+                        })
+                        console.log(response.json());
+                    })
+                }
+            }
+        }
+        customElements.define('rating-widget', RatingWidget);
+    </script>
+</html>
